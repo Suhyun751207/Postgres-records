@@ -6,3 +6,6 @@ export * from "./interfaces";
 
 // Utility exports
 export * from "./utils";
+
+// Repository exports
+export * from "./repository";

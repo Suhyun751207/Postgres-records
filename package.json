@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "rm -rf dist && tsc -p tsconfig.build.json --noEmit false"
+    "build": "tsc -p tsconfig.build.json --noEmit false"
   },
   "license": "MIT",
   "dependencies": {
