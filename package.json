@@ -1,0 +1,27 @@
+{
+  "name": "Postgres-records",
+  "description": "A lightweight PostgreSQL ORM and helper toolkit for Node.js",
+  "version": "0.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "rm -rf dist && tsc -p tsconfig.build.json --noEmit false"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "pg": "^8.16.3",
+    "tspec": "^0.1.116"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.21",
+    "@types/pg": "^8.0.0",
+    "typescript": "^5.0.0",
+    "@types/express": "^5.0.0"
+  },
+  "author": "suhyun751207",
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=7.0.0"
+  }
+}

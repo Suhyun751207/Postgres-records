@@ -1,0 +1,70 @@
+# Source files (only build should be published)
+src/
+tsconfig.json
+tsconfig.tsbuildinfo
+
+# Development files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Test files
+**/*.test.ts
+**/*.spec.ts
+__tests__/
+test/
+tests/
+coverage/
+
+# Documentation source
+docs/
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+.travis.yml
+circle.yml
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*.cache
+
+# Build config (keep only build output)
+*.tsbuildinfo
+
+# Node
+node_modules/
+
+# Certificates and keys
+certs/
+*.pem
+*.key
+*.cert
+
+# Editor files
+.editorconfig
+
