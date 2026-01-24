@@ -55,7 +55,7 @@ const LogLevelColors: Record<LogLevel, string> = {
 /**
  * 로거 클래스
  */
-class Logger {
+export class Logger {
     private config: Required<LoggerConfig>;
     private currentLevel: LogLevel;
 
