@@ -4,6 +4,7 @@ import { getConnection } from "../utils/connection";
 import { getLogger, createLogger, Logger } from "../utils/logger";
 import { handler } from "../utils/transaction";
 import { HandlerOption } from "../interfaces/HandlerOption";
+import { createSelectFunction, ISelectBuilder } from "./select/select";
 
 /**
  * Repository 생성 옵션 인터페이스
@@ -74,6 +75,12 @@ export interface Repository<TEntity extends QueryResultRow = any, TCreate = any>
    * DB 연결 가져오기
    */
   getConnection(): Promise<PoolClient | null>;
+
+  /**
+   * SELECT 쿼리 빌더 시작
+   * @param columns 조회할 컬럼 목록 (선택사항, 기본값: "*")
+   */
+  select(columns?: string[]): ISelectBuilder<TEntity>;
 }
 
 /**
@@ -108,6 +115,9 @@ export function createRepository<TEntity extends QueryResultRow = any, TCreate =
   // DB 연결 풀 가져오기 (싱글톤)
   const pool = getConnectionPool();
 
+  // Select 함수 생성
+  const selectFn = createSelectFunction<TEntity>(tableName, repoLogger);
+
   // Repository 구현
   const repository: Repository<TEntity, TCreate> = {
     tableName,
@@ -132,6 +142,10 @@ export function createRepository<TEntity extends QueryResultRow = any, TCreate =
 
     async getConnection(): Promise<PoolClient | null> {
       return await getConnection();
+    },
+
+    select(columns?: string[]): ISelectBuilder<TEntity> {
+      return selectFn(columns);
     },
   };
 
