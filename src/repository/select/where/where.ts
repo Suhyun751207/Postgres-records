@@ -128,8 +128,10 @@ function buildConditionNode(
 /**
  * WHERE 조건을 SQL로 변환
  * - 단순 객체 또는 ConditionNode 둘 다 지원
+ * @param where   WHERE 조건 입력
+ * @param startIndex 파라미터 플레이스홀더 시작 인덱스 (기본값: 1)
  */
-export function buildWhereClause(where: WhereInput): { sql: string; params: any[] } {
+export function buildWhereClause(where: WhereInput, startIndex: number = 1): { sql: string; params: any[] } {
     if (!where) {
         return { sql: "", params: [] };
     }
@@ -148,7 +150,7 @@ export function buildWhereClause(where: WhereInput): { sql: string; params: any[
         return { sql: "", params: [] };
     }
 
-    const built = buildConditionNode(conditionNode, 1);
+    const built = buildConditionNode(conditionNode, startIndex);
 
     if (!built.sql) {
         return { sql: "", params: [] };

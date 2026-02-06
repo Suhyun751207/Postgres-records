@@ -5,6 +5,9 @@ import { getLogger, createLogger, Logger } from "../utils/logger";
 import { handler } from "../utils/transaction";
 import { HandlerOption } from "../interfaces/HandlerOption";
 import { createSelectFunction, ISelectBuilder } from "./select/select";
+import { createInsertFunction, IInsertBuilder } from "./insert/insert";
+import { createUpdateFunction, IUpdateBuilder } from "./update/update";
+import { createDeleteFunction, IDeleteBuilder } from "./delete/delete";
 
 /**
  * Repository 생성 옵션 인터페이스
@@ -81,6 +84,24 @@ export interface Repository<TEntity extends QueryResultRow = any, TCreate = any>
    * @param columns 조회할 컬럼 목록 (선택사항, 기본값: "*")
    */
   select(columns?: string[]): ISelectBuilder<TEntity>;
+
+  /**
+   * INSERT 쿼리 빌더 시작
+   * @param data 미리 지정할 값 (선택사항)
+   * TCreate 제네릭으로 타입 안전한 입력 정의 가능
+   */
+  insert(data?: TCreate | TCreate[]): IInsertBuilder<TEntity, TCreate>;
+
+  /**
+   * UPDATE 쿼리 빌더 시작
+   * 기본적으로 Partial<TEntity> 를 업데이트 타입으로 사용
+   */
+  update(): IUpdateBuilder<TEntity, Partial<TEntity>>;
+
+  /**
+   * DELETE 쿼리 빌더 시작
+   */
+  delete(): IDeleteBuilder<TEntity>;
 }
 
 /**
@@ -117,6 +138,10 @@ export function createRepository<TEntity extends QueryResultRow = any, TCreate =
 
   // Select 함수 생성
   const selectFn = createSelectFunction<TEntity>(tableName, repoLogger);
+  // Insert / Update / Delete 함수 생성
+  const insertFn = createInsertFunction<TEntity, TCreate>(tableName, repoLogger);
+  const updateFn = createUpdateFunction<TEntity, Partial<TEntity>>(tableName, repoLogger);
+  const deleteFn = createDeleteFunction<TEntity>(tableName, repoLogger);
 
   // Repository 구현
   const repository: Repository<TEntity, TCreate> = {
@@ -146,6 +171,18 @@ export function createRepository<TEntity extends QueryResultRow = any, TCreate =
 
     select(columns?: string[]): ISelectBuilder<TEntity> {
       return selectFn(columns);
+    },
+
+    insert(data?: TCreate | TCreate[]): IInsertBuilder<TEntity, TCreate> {
+      return insertFn(data);
+    },
+
+    update(): IUpdateBuilder<TEntity, Partial<TEntity>> {
+      return updateFn();
+    },
+
+    delete(): IDeleteBuilder<TEntity> {
+      return deleteFn();
     },
   };
 
