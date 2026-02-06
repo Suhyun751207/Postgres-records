@@ -68,3 +68,4 @@ certs/
 # Editor files
 .editorconfig
 
+_test/

@@ -4,7 +4,8 @@
   "version": "0.0.2",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc -p tsconfig.build.json --noEmit false"
+    "build": "tsc -p tsconfig.build.json --noEmit false",
+    "dev": "nodemon --exec ts-node src/_test/index.ts"
   },
   "license": "MIT",
   "dependencies": {
@@ -17,7 +18,9 @@
     "@types/node": "^20.19.21",
     "@types/pg": "^8.0.0",
     "typescript": "^5.0.0",
-    "@types/express": "^5.0.0"
+    "@types/express": "^5.0.0",
+    "nodemon": "^3.1.9",
+    "ts-node": "^10.9.2"
   },
   "author": "suhyun751207",
   "engines": {

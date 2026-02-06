@@ -8,6 +8,7 @@ import { createSelectFunction, ISelectBuilder } from "./select/select";
 import { createInsertFunction, IInsertBuilder } from "./insert/insert";
 import { createUpdateFunction, IUpdateBuilder } from "./update/update";
 import { createDeleteFunction, IDeleteBuilder } from "./delete/delete";
+import { createCountFunction, ICountBuilder } from "./count/count";
 
 /**
  * Repository 생성 옵션 인터페이스
@@ -102,6 +103,11 @@ export interface Repository<TEntity extends QueryResultRow = any, TCreate = any>
    * DELETE 쿼리 빌더 시작
    */
   delete(): IDeleteBuilder<TEntity>;
+
+  /**
+   * COUNT 쿼리 빌더 시작
+   */
+  count(): ICountBuilder<TEntity>;
 }
 
 /**
@@ -142,7 +148,7 @@ export function createRepository<TEntity extends QueryResultRow = any, TCreate =
   const insertFn = createInsertFunction<TEntity, TCreate>(tableName, repoLogger);
   const updateFn = createUpdateFunction<TEntity, Partial<TEntity>>(tableName, repoLogger);
   const deleteFn = createDeleteFunction<TEntity>(tableName, repoLogger);
-
+  const countFn = createCountFunction<TEntity>(tableName, repoLogger);
   // Repository 구현
   const repository: Repository<TEntity, TCreate> = {
     tableName,
@@ -183,6 +189,10 @@ export function createRepository<TEntity extends QueryResultRow = any, TCreate =
 
     delete(): IDeleteBuilder<TEntity> {
       return deleteFn();
+    },
+
+    count(): ICountBuilder<TEntity> {
+      return countFn();
     },
   };
 
