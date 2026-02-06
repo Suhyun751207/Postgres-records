@@ -2,7 +2,7 @@
   "name": "postgres-records",
   "description": "A lightweight PostgreSQL ORM and helper toolkit for Node.js",
   "version": "0.0.1",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "tsc -p tsconfig.build.json --noEmit false"
   },
