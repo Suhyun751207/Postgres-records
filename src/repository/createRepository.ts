@@ -5,6 +5,7 @@ import { getLogger, createLogger, Logger } from "../utils/logger";
 import { handler } from "../utils/transaction";
 import { HandlerOption } from "../interfaces/HandlerOption";
 import { createSelectFunction, ISelectBuilder } from "./select/select";
+import { createSelectOneBuilder, ISelectOneBuilder } from "./selectOne/selectOne";
 import { createInsertFunction, IInsertBuilder } from "./insert/insert";
 import { createUpdateFunction, IUpdateBuilder } from "./update/update";
 import { createDeleteFunction, IDeleteBuilder } from "./delete/delete";
@@ -87,6 +88,12 @@ export interface Repository<TEntity extends QueryResultRow = any, TCreate = any>
   select(columns?: string[]): ISelectBuilder<TEntity>;
 
   /**
+   * SELECT 쿼리 빌더 시작
+   * @param columns 단일로 조회 가능.
+   */
+  selectOne(columns?: string[]): ISelectOneBuilder<TEntity>;
+
+  /**
    * INSERT 쿼리 빌더 시작
    * @param data 미리 지정할 값 (선택사항)
    * TCreate 제네릭으로 타입 안전한 입력 정의 가능
@@ -144,7 +151,7 @@ export function createRepository<TEntity extends QueryResultRow = any, TCreate =
 
   // Select 함수 생성
   const selectFn = createSelectFunction<TEntity>(tableName, repoLogger);
-  // Insert / Update / Delete 함수 생성
+  const selectOneFn = createSelectOneBuilder<TEntity>(tableName, repoLogger);
   const insertFn = createInsertFunction<TEntity, TCreate>(tableName, repoLogger);
   const updateFn = createUpdateFunction<TEntity, Partial<TEntity>>(tableName, repoLogger);
   const deleteFn = createDeleteFunction<TEntity>(tableName, repoLogger);
@@ -177,6 +184,10 @@ export function createRepository<TEntity extends QueryResultRow = any, TCreate =
 
     select(columns?: string[]): ISelectBuilder<TEntity> {
       return selectFn(columns);
+    },
+
+    selectOne(columns?: string[]): ISelectOneBuilder<TEntity> {
+      return selectOneFn(columns);
     },
 
     insert(data?: TCreate | TCreate[]): IInsertBuilder<TEntity, TCreate> {

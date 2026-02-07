@@ -1,5 +1,6 @@
 export * from "./createRepository";
 export * from "./select";
+export * from "./selectOne";
 export * from "./insert";
 export * from "./update";
 export * from "./delete";
